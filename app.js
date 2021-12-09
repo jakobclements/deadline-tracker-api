@@ -4,6 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Import mongoose
+const mongoose = require('mongoose');
+// Import global config
+const config = require('./config/globals');
+
 // Routers
 var indexRouter = require('./routes/index');
 var scheduleRouter = require('./routes/api/schedule');
@@ -20,8 +25,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Endpoints
 app.use('/', indexRouter);
 app.use('/api/schedule', scheduleRouter);
+
+// Connect to db
+mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true })
+.then((message) => {
+  console.log('Connected to db successfully!');
+})
+.catch((err) => {
+  console.log(`Connection failed! ERR: ${err}`);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
