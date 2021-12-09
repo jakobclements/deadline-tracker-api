@@ -2,6 +2,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Import Task model
+const Task  = require('../../models/task');
+
 // GET handler for /api/schedule
 // Lists all tasks on the schedule
 router.get('/', (req, res, next) => {
