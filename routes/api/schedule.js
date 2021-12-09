@@ -30,7 +30,33 @@ router.get('/:_id', (req, res, next) => {
 // POST handler for /api/schedule/add
 // Creates a new task in the schedule
 router.post('/add', (req, res, next) => {
-    res.json('Success! Post a new task.');
+
+    // Validate the data before posting
+    // Task Name and Due Date are required fields
+    if (!req.body.taskName || !req.body.dueDate) {
+        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' })
+    }
+    else {
+
+        // Create new Task object with info from request
+        Task.create({
+            taskName: req.body.taskName,
+            dueDate: req.body.dueDate,
+            category: req.body.category,
+            priority: req.body.priority
+        },
+        // Post the task if no errors
+        (err, newTask) => {
+            if (!err) {
+                console.log('Task created successfully!');
+                res.json(newTask);
+            }
+            else {
+                console.log('ERROR: ' + err);
+                res.json({ 'ERROR': 'Server exception thrown' }).status(500);
+            }
+        });
+    }
 });
 
 // PUT handler for /api/schedule/edit/{id}
