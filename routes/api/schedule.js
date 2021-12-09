@@ -8,13 +8,23 @@ const Task  = require('../../models/task');
 // GET handler for /api/schedule
 // Lists all tasks on the schedule
 router.get('/', (req, res, next) => {
-    res.json('Success! List of upcoming tasks.');
+
+    // Find all tasks
+    Task.find((err, tasks) => {
+        if (!err) {
+            res.json(tasks).status(200);
+        }
+        else {
+            console.log('ERROR: ' + err);
+            res.json('ERROR').status(500);
+        }
+    });
 });
 
 // GET handler for /api/schedule/{id}
 // Lists details about a specific task
 router.get('/:_id', (req, res, next) => {
-    res.json('Success! List task details')
+    res.json('Success! List task details');
 });
 
 // POST handler for /api/schedule/add
