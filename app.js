@@ -11,12 +11,19 @@ const config = require('./config/globals');
 // Import passport
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
+// Import Swagger UI
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 // Routers
 var indexRouter = require('./routes/index');
 var scheduleRouter = require('./routes/api/schedule');
 
 var app = express();
+
+// Load Swagger API documentation from YAML file
+const swaggerDocumentation = YAML.load('./documentation/api-spec.yaml');
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

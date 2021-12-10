@@ -55,7 +55,7 @@ router.post('/add', (req, res, next) => {
     // Validate the data before submitting
     // Task Name and Due Date are required fields
     if (!req.body.taskName || !req.body.dueDate) {
-        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' });
+        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' }).status(400);
     }
     else {
 
