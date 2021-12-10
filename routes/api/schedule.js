@@ -5,8 +5,10 @@ const router = express.Router();
 // Import Task model
 const Task  = require('../../models/task');
 
-// GET handler for /api/schedule
-// Lists all tasks on the schedule
+/**
+ * GET handler for /api/schedule
+ * Shows all upcoming tasks in the schedule
+ */
 router.get('/', (req, res, next) => {
 
     // Find all tasks
@@ -21,8 +23,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
-// GET handler for /api/schedule/{id}
-// Lists details about a specific task
+/**
+ * GET handler for /api/schedule/{_id}
+ * Shows details about a specific task in the schedule
+ * Input (URL): _id
+ */
 router.get('/:_id', (req, res, next) => {
     
     // Find task by id
@@ -40,8 +45,11 @@ router.get('/:_id', (req, res, next) => {
     );
 });
 
-// POST handler for /api/schedule/add
-// Creates a new task in the schedule
+/**
+ * POST handler for /api/schedule/add
+ * Creates a new task in the schedule
+ * Input (Body): JSON Object with new task info
+ */
 router.post('/add', (req, res, next) => {
 
     // Validate the data before submitting
@@ -72,8 +80,12 @@ router.post('/add', (req, res, next) => {
     }
 });
 
-// PUT handler for /api/schedule/edit/{id}
-// Updates a task's info in the database
+/**
+ * PUT handler for /api/schedule/edit/{id}
+ * Edits the details of a task in the schedule
+ * Input (URL): _id
+ * Input (Body): JSON object with updated task info
+ */
 router.put('/edit/:_id', (req, res, next) => {
     
     // Validate the data before submitting
@@ -105,7 +117,11 @@ router.put('/edit/:_id', (req, res, next) => {
     }
 });
 
-// DELETE handler for /api/schedule/delete/{id}
+/**
+ * DELETE handler for /api/schedule/delete/{id}
+ * Deletes a task from the schedule
+ * Input (URL): _id
+ */
 router.delete('/delete/:_id', (req, res, next) => {
     
     // Find by id and delete the task
