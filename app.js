@@ -8,6 +8,9 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 // Import global config
 const config = require('./config/globals');
+// Import passport
+const passport = require('passport');
+const BasicStrategy = require('passport-http').BasicStrategy;
 
 // Routers
 var indexRouter = require('./routes/index');
@@ -25,9 +28,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Initialize passport
+app.use(passport.initialize());
+
+// BasicStrategy authentication
+passport.use(new BasicStrategy((username, password, done) => {
+  if (username == 'root' && password == 'secret') {
+    console.log(`Authentication successful for user: ${username}`);
+    return done(null, username);
+  }
+  else {
+    console.log(`Authentication failed for user: ${username}`);
+    return done(null, false);
+  }
+}));
+
 // Endpoints
 app.use('/', indexRouter);
-app.use('/api/schedule', scheduleRouter);
+
+// API endpoints
+app.use('/api/schedule', passport.authenticate('basic', { session: false }), scheduleRouter); // Secured with passport auth
 
 // Connect to db
 mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true })
