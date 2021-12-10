@@ -44,10 +44,10 @@ router.get('/:_id', (req, res, next) => {
 // Creates a new task in the schedule
 router.post('/add', (req, res, next) => {
 
-    // Validate the data before posting
+    // Validate the data before submitting
     // Task Name and Due Date are required fields
     if (!req.body.taskName || !req.body.dueDate) {
-        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' })
+        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' });
     }
     else {
 
@@ -75,7 +75,34 @@ router.post('/add', (req, res, next) => {
 // PUT handler for /api/schedule/edit/{id}
 // Updates a task's info in the database
 router.put('/edit/:_id', (req, res, next) => {
-    res.json('Success! Update the task.');
+    
+    // Validate the data before submitting
+    if (!req.body.taskName || !req.body.dueDate) {
+        res.json({ 'Validation Error': 'Task Name and Due Date are required fields' }).status(400);
+    }
+    else {
+        // Find task by id and update with new info from request body
+        Task.findOneAndUpdate(
+            {_id: req.params._id},
+            {
+                taskName: req.body.taskName,
+                dueDate: req.body.dueDate,
+                category: req.body.category,
+                priority: req.body.priority
+            },
+            // Update the task if no errors
+            (err, updatedTask) => {
+                if (!err) {
+                    console.log('No errors yay!');
+                    res.json(updatedTask).status(200);
+                }
+                else {
+                    console.log('ERROR: ' + err);
+                    res.json({ 'ERROR': 'Server exception thrown' }).status(500);
+                }
+            }
+        )
+    }
 });
 
 // DELETE handler for /api/schedule/delete/{id}
