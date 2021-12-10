@@ -94,7 +94,7 @@ router.put('/edit/:_id', (req, res, next) => {
             (err, updatedTask) => {
                 if (!err) {
                     console.log('No errors yay!');
-                    res.json(updatedTask).status(200);
+                    res.json({ 'Success': 'Task was updated' }).status(200);
                 }
                 else {
                     console.log('ERROR: ' + err);
@@ -107,7 +107,20 @@ router.put('/edit/:_id', (req, res, next) => {
 
 // DELETE handler for /api/schedule/delete/{id}
 router.delete('/delete/:_id', (req, res, next) => {
-    res.json('Success! Delete the task.');
+    
+    // Find by id and delete the task
+    Task.remove(
+        {_id: req.params._id },
+        (err) => {
+            if (!err) {
+                res.json({ 'Success': 'Task was deleted' }).status(200);
+            }
+            else {
+                console.log('ERROR: ' + err);
+                res.json({ 'ERROR': 'Server exception thrown' }).status(500);
+            }
+        }
+    )
 });
 
 module.exports = router;
