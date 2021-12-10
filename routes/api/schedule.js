@@ -24,7 +24,20 @@ router.get('/', (req, res, next) => {
 // GET handler for /api/schedule/{id}
 // Lists details about a specific task
 router.get('/:_id', (req, res, next) => {
-    res.json('Success! List task details');
+    
+    // Find task by id
+    Task.find(
+        {_id: req.params._id},
+        (err, selectedTask) => {
+            if (!err) {
+                res.json(selectedTask).status(200);
+            }
+            else {
+                console.log('ERROR: ' + err);
+                res.json('ERROR').status(500);
+            }
+        }
+    );
 });
 
 // POST handler for /api/schedule/add
@@ -49,7 +62,7 @@ router.post('/add', (req, res, next) => {
         (err, newTask) => {
             if (!err) {
                 console.log('Task created successfully!');
-                res.json(newTask);
+                res.json(newTask).status(200);
             }
             else {
                 console.log('ERROR: ' + err);
