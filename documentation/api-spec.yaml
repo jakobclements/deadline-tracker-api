@@ -8,7 +8,7 @@ tags:
     description: "Interact with your schedule"
 
 paths: 
-  /schedule:
+  /api/schedule:
     get:
       tags: 
         - "schedule"
@@ -18,7 +18,7 @@ paths:
         "200":
           description: "List of all tasks"
 
-  /schedule/{taskId}:
+  /api/schedule/{taskId}:
     get:
       tags: 
         - "schedule"
@@ -37,7 +37,7 @@ paths:
         "404":
           description: "Task not found"
 
-  /schedule/add:
+  /api/schedule/add:
     post:
       tags: 
         - "schedule"
@@ -74,7 +74,7 @@ paths:
         "400":
           description: "Invalid values submitted"
       
-  /schedule/edit/{taskId}:
+  /api/schedule/edit/{taskId}:
     put:
       tags: 
         - "schedule"
@@ -119,7 +119,7 @@ paths:
         "404":
           description: "Task not found"
 
-  /schedule/delete/{taskId}:
+  /api/schedule/delete/{taskId}:
     delete:
       tags: 
         - "schedule"
